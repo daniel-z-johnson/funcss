@@ -16,3 +16,5 @@
 
 # Ignore db files
 data_funcss/
+.idea/
+

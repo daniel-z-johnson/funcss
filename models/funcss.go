@@ -10,9 +10,10 @@ import (
 
 type FunCSS struct {
 	UUID   uuid.UUID
-	ID     int64
+	ID     int
 	CSSHex string
 	Name   string
+	Author string
 }
 
 type FunCSSDB interface {
@@ -38,6 +39,6 @@ func (fc *funCSSPGX) Create(FunCSS) error {
 	return err
 }
 
-func (fc *funCSSPGX) ByID(id int) (*FunCSS, error) {
-
-}
+//func (fc *funCSSPGX) ByID(id int) (*FunCSS, error) {
+//
+//}
