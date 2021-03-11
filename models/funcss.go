@@ -31,14 +31,28 @@ type funCSSPGX struct {
 }
 
 func (fc *funCSSPGX) Page(page int, limit int, name string) ([]*FunCSS, error) {
-	return nil, fmt.Errorf("Not implemented yet")
+	return nil, fmt.Errorf("not implemented yet")
 }
 
-func (fc *funCSSPGX) Create(FunCSS) error {
-	_, err := fc.pool.Exec(context.Background(), "")
+func (fc *funCSSPGX) Create(funCSS FunCSS) error {
+	uuid, err := uuid.NewRandom()
+	if err != nil {
+		return nil
+	}
+	_, err = fc.pool.Exec(context.Background(), "INSERT INTO funcss(uuid, id, csshex, name, author) VALUES "+
+		"	($1,  $2,        $3,            $4,          $5)",
+		uuid, funCSS.ID, funCSS.CSSHex, funCSS.Name, funCSS.Author)
 	return err
 }
 
-//func (fc *funCSSPGX) ByID(id int) (*FunCSS, error) {
-//
-//}
+func (fc *funCSSPGX) ByID(id int) (*FunCSS, error) {
+	return nil, fmt.Errorf("not implemented yet")
+}
+
+func (fc *funCSSPGX) Update(funCSS *FunCSS) error {
+	return fmt.Errorf("not implemented yet")
+}
+
+func (fc *funCSSPGX) Delete(funCSS *FunCSS) error {
+	return fmt.Errorf("not implemented yet")
+}
