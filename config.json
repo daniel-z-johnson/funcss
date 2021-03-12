@@ -1,0 +1,9 @@
+{
+  "db": {
+    "port": 5433,
+    "host": "127.0.0.1",
+    "name": "funcss",
+    "user": "postgres",
+    "password": "postgress"
+  }
+}
