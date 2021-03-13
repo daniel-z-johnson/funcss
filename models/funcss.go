@@ -36,7 +36,7 @@ type FunCSSService interface {
 	Delete(funCSS *FunCSS) error
 }
 
-func newFunCSSService(pool pgxpool.Pool) FunCSSService {
+func NewFunCSSService(pool *pgxpool.Pool) FunCSSService {
 	db := funCSSPGX{
 		pool: pool,
 	}
@@ -49,7 +49,7 @@ func newFunCSSService(pool pgxpool.Pool) FunCSSService {
 
 // funCSSPGX implements FunCSSDB
 type funCSSPGX struct {
-	pool pgxpool.Pool
+	pool *pgxpool.Pool
 }
 
 func (fc *funCSSPGX) Page(page int, limit int, name string) ([]*FunCSS, error) {
@@ -61,7 +61,7 @@ func (fc *funCSSPGX) Create(funCSS *FunCSS) error {
 	if err != nil {
 		return nil
 	}
-	_, err = fc.pool.Exec(context.Background(), "INSERT INTO funcss(uuid, id, csshex, name, author) VALUES "+
+	_, err = fc.pool.Exec(context.Background(), "INSERT INTO funcss(uuid, id, css_hex, name, author) VALUES "+
 		"	($1,  $2,        $3,            $4,          $5)",
 		uuid, funCSS.ID, funCSS.CSSHex, funCSS.Name, funCSS.Author)
 	return err

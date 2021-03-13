@@ -18,4 +18,7 @@ func main() {
 	fmt.Println("Starting funCSS")
 	badAss, _ := models.FirstBadAssPage()
 	fmt.Println(badAss)
+	services := models.NewServices(*confFile)
+	err = services.FunCSS.Create(&models.FunCSS{})
+	fmt.Println(err)
 }
