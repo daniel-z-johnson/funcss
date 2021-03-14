@@ -32,16 +32,20 @@ type BadAss struct {
 
 // URL to use http://bada55.io/lazyload?page=?
 func FirstBadAssPage() (*BadAss, error) {
-	fmt.Println("Start First Page")
+	return NthBadAssPage(1)
+}
+
+func NthBadAssPage(n int) (*BadAss, error) {
+	fmt.Printf("%d First Page\n", n)
 	badAss := &BadAss{}
-	url := fmt.Sprintf(baseURL, 1)
+	url := fmt.Sprintf(baseURL, n)
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
 	}
 	defer resp.Body.Close()
 	err = json.NewDecoder(resp.Body).Decode(badAss)
-	fmt.Println("End First Page")
+	fmt.Printf("%d First Page\n", n)
 	return badAss, err
 }
 
@@ -59,4 +63,25 @@ func badAssAsFunCSS(badAss *BadAss) []*FunCSS {
 	}
 
 	return funCSSList
+}
+
+func GetAllBadAssAsFunCSS() ([]*FunCSS, error) {
+	funCSSES := make([]*FunCSS, 0, 0)
+	page := 1
+	badAss, err := FirstBadAssPage()
+	if err != nil {
+		return nil, err
+	}
+	to := 0
+	total := badAss.Total
+	for total != to {
+		badAss, err = NthBadAssPage(page)
+		if err != nil {
+			return nil, err
+		}
+		page += 1
+		to = badAss.To
+		funCSSES = append(funCSSES, badAssAsFunCSS(badAss)...)
+	}
+	return funCSSES, nil
 }
