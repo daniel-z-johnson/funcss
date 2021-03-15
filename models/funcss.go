@@ -68,7 +68,19 @@ func (fc *funCSSPGX) Create(funCSS *FunCSS) error {
 }
 
 func (fc *funCSSPGX) ByID(id int) (*FunCSS, error) {
-	return nil, fmt.Errorf("not implemented yet")
+	funCSS := &FunCSS{}
+	uuidString := ""
+	row := fc.pool.QueryRow(context.Background(), "SELECT uuid, id, css_hex, name, author FROM funcss WHERE id = $1", id)
+	err := row.Scan(&uuidString, &funCSS.ID, &funCSS.CSSHex, &funCSS.Name, &funCSS.Author)
+
+	if err != nil {
+		return nil, err
+	}
+	funCSS.UUID, err = uuid.Parse(uuidString)
+	if err != nil {
+		return nil, err
+	}
+	return funCSS, nil
 }
 
 func (fc *funCSSPGX) Update(funCSS *FunCSS) error {

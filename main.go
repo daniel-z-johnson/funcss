@@ -15,6 +15,7 @@ func main() {
 		panic(err)
 	}
 	fmt.Println(conf)
+	services := models.NewServices(*confFile)
 	fmt.Println("Starting funCSS")
 	funCESSES, err := models.GetAllBadAssAsFunCSS()
 	if err != nil {
@@ -22,5 +23,8 @@ func main() {
 		panic(err)
 	}
 	fmt.Println(funCESSES)
-	fmt.Println(len(funCESSES))
+	for _, fcss := range funCESSES {
+		services.FunCSS.Create(fcss)
+	}
+	fmt.Println(services.FunCSS.ByID(129))
 }
