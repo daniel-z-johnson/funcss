@@ -107,6 +107,13 @@ func (f funCSSServiceDB) ByID(id int) (*FunCSS, error) {
 }
 
 func (f funCSSServiceDB) Create(funCSS *FunCSS) error {
+	id := funCSS.ID
+	if id != 0 {
+		foundFunCSS, err := f.ByID(id)
+		if err == nil && foundFunCSS != nil {
+			return nil
+		}
+	}
 	return f.db.Create(funCSS)
 }
 
